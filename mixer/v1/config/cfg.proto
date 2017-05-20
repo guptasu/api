@@ -22,6 +22,7 @@ import "mixer/v1/config/descriptor/monitored_resource_descriptor.proto";
 import "mixer/v1/config/descriptor/principal_descriptor.proto";
 import "mixer/v1/config/descriptor/quota_descriptor.proto";
 import "mixer/v1/config/descriptor/value_type.proto";
+import "mixer/v1/config/descriptor/type_descriptor.proto";
 
 
 package istio.mixer.v1.config;
@@ -56,6 +57,22 @@ message ServiceConfig {
   // Optional. revision of this config. This is assigned by the server
   string revision = 2;
   repeated AspectRule rules = 3;
+
+  repeated Constructor constructors = 4;
+
+  repeated Action actions = 5;
+}
+
+message Action {
+  string handler = 1;
+  repeated string instances = 2;
+}
+
+message Constructor {
+  string type = 1;
+  string name = 2;
+  google.protobuf.Struct params = 3;
+
 }
 
 // An AspectRule is a selector and a set of intentions to be executed when the
@@ -165,6 +182,8 @@ message GlobalConfig {
   repeated istio.mixer.v1.config.descriptor.MonitoredResourceDescriptor monitored_resources = 6;
   repeated istio.mixer.v1.config.descriptor.PrincipalDescriptor principals = 7;
   repeated istio.mixer.v1.config.descriptor.QuotaDescriptor quotas = 8;
+
+  repeated istio.mixer.v1.config.descriptor.TypeDescriptor types = 9;
 }
 
 // AttributeManifest describes a set of Attributes produced by some component
